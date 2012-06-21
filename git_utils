@@ -8,10 +8,10 @@
 
 #pulls from all the remotes
 function gitpullall(){
-    for RMT in $(git remotes); do git pull -v $RMT $1; done;
+    for RMT in $(git remote); do git pull -v $RMT $1; done;
 }
 
 #push from all the remotes
 function gitpushall(){
-    for RMT in $(git remotes); do git push -v $RMT $1; done;
+    for RMT in $(git remote); do git push -v $RMT $1; done;
 }

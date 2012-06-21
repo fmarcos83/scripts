@@ -1,10 +1,22 @@
 #!/bin/bash
+# *********************************************************************** #
+# author: fmarcos83
+# email : fmarcos83@gmail.com
+# An easy and dirty fast way to have a bookmark system                    #
+# *********************************************************************** #
+
+# TODO: add autocompletion
+# TODO: I don't like g option, should change to bookmark
+#       on bm $bookmark
 function bm(){
 bookmarkfolder=~/.bookmarks
 OPTIND=1
 while getopts 'lc:d:g:' OPTION;
 do
     case $OPTION in
+        # create the bookmark 
+        # TODO: necesary to check if the bookmark already exists
+        #       before creating it
         c)
            bookmarkname="$OPTARG"
            if [[ ! -e $bookmarkfolder ]]; then
@@ -13,14 +25,17 @@ do
            # adding the bookmark
            ln -s $(pwd) $bookmarkfolder/$bookmarkname
            ;;
+        # deletes the bookmark
         d)
            bookmarkname="$OPTARG"
            rm $bookmarkfolder/$bookmarkname
            ;;
+        # lists all the bookmarks
         l)
            ls $bookmarkfolder/ --color -1
            OPTION='l'
            ;;
+        # go to bookmark
         g)
            bookmarkname=$OPTARG;
            # resolving the symbolic link

@@ -1,0 +1,17 @@
+#! /bin/bash
+# ********************************************************************** #
+# user: fmarcos83                                                        #
+# mail: fmarcos83@gmail.com                                              #
+# Description: git utilities to push and pull from all remotes repos     #
+# based on the solution proposed http://stackoverflow.com/a/10194757     #
+# ********************************************************************** #
+
+#pulls from all the remotes
+function gitpullall(){
+    for RMT in $(git remotes); do git pull -v $RMT $1; done;
+}
+
+#push from all the remotes
+function gitpushall(){
+    for RMT in $(git remotes); do git push -v $RMT $1; done;
+}

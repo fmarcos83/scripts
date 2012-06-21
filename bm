@@ -1,0 +1,32 @@
+#!/bin/bash
+function bm(){
+bookmarkfolder=~/.bookmarks
+OPTIND=1
+while getopts 'lc:d:g:' OPTION;
+do
+    case $OPTION in
+        c)
+           bookmarkname="$OPTARG"
+           if [[ ! -e $bookmarkfolder ]]; then
+               mkdir $bookmarkfolder
+           fi
+           # adding the bookmark
+           ln -s $(pwd) $bookmarkfolder/$bookmarkname
+           ;;
+        d)
+           bookmarkname="$OPTARG"
+           rm $bookmarkfolder/$bookmarkname
+           ;;
+        l)
+           ls $bookmarkfolder/ --color -1
+           OPTION='l'
+           ;;
+        g)
+           bookmarkname=$OPTARG;
+           # resolving the symbolic link
+           dir=$(readlink $bookmarkfolder/$bookmarkname)
+           cd $dir/
+           ;;
+    esac
+done
+}

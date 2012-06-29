@@ -14,11 +14,11 @@ OPTIND=1
 while getopts 'lc:d:g:' OPTION;
 do
     case $OPTION in
-        # create the bookmark 
+        # create the bookmark
         # TODO: necesary to check if the bookmark already exists
         #       before creating it
         c)
-           bookmarkname="$OPTARG"
+            bookmarkname="$OPTARG"
            if [[ ! -e $bookmarkfolder ]]; then
                mkdir $bookmarkfolder
            fi
@@ -42,6 +42,14 @@ do
            dir=$(readlink $bookmarkfolder/$bookmarkname)
            cd $dir/
            ;;
+        ?)
+           echo "Very simple bookmark system:"
+           echo "c) creates a bookmark on the current directory"
+           echo "d) removes a bookmark"
+           echo "l) list bookmarks in the system"
+           echo "g) changes directory to the bookmark"
+           ;;
+
     esac
 done
 }

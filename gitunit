@@ -1,0 +1,27 @@
+#!/bin/bash
+
+#@author Francisco Marcos fmarcos83@gmail.com
+#@description executes phpunit -c phpunitgit.xml
+#             such configuration file must be stored
+#             in the root repository
+
+configurationFilePath=$( git rev-parse --show-toplevel 2>/dev/null )
+configurationFile="$configurationFilePath/phpunitgit.xml"
+
+if [ $? -ne 0 ]; then
+    notify-send "Not a git repository"
+    exit 1
+fi
+
+if [ ! -f $configurationFile ]; then
+    notify-send "It seems is not a php project"
+    exit 1
+fi
+
+phpunit -c $configurationFile > /dev/null
+
+if [ $? -ne 0 ]; then
+    notify-send 'Errors, review your tests'
+else
+    notify-send 'All tests green please commit'
+fi

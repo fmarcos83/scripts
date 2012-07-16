@@ -5,23 +5,44 @@
 #             such configuration file must be stored
 #             in the root repository
 
-configurationFilePath=$( git rev-parse --show-toplevel 2>/dev/null )
-configurationFile="$configurationFilePath/phpunitgit.xml"
+function gitunit(){
 
-if [ $? -ne 0 ]; then
-    notify-send "Not a git repository"
-    exit 1
-fi
+    configurationFilePath=$( git rev-parse --show-toplevel 2> /dev/null )
+    configurationFile="$configurationFilePath/phpunitgit.xml"
+    tmpOutput="/home/francisco/.gitunit/tmpoutput"
+    title="PHPUnit"
+    okIcon="/home/francisco/bin/.gitresources/tick.png"
+    wrIcon="/home/francisco/bin/.gitresources/warn.png"
+    message1="Not a git repository"
+    message2="It seems not a default php project"
+    message3="Wrong, please review your code"
+    message4="Green, you can commit now"
 
-if [ ! -f $configurationFile ]; then
-    notify-send "It seems is not a php project"
-    exit 1
-fi
+    if [ $? -ne 0 ]; then
+        notify-send "$title" "$message1"
+        exit 1
+    fi
 
-phpunit -c $configurationFile > /dev/null
+    if [ ! -f $configurationFile ]; then
+        notify-send "$title" "$message2"
+        exit 1
+    fi
 
-if [ $? -ne 0 ]; then
-    notify-send 'Errors, review your tests'
-else
-    notify-send 'All tests green please commit'
-fi
+    $( phpunit -c $configurationFile &> $tmpOutput )
+
+    if [ $? -ne 0 ]; then
+        notify-send "$title" "$message3" -i "$wrIcon"
+        exit 1
+    else
+        timeTaken=$( tail -n 3 $tmpOutput | grep -P 'Time: \d+ \w+' -o )
+        memoryTaken=$( tail -n 3 $tmpOutput | grep -P 'Memory: \d+\.\d+\w*' -o )
+        testsTaken=$( tail -n 3 $tmpOutput | grep -P '\d+ tests' -o )
+        assertionsTaken=$( tail -n 3 $tmpOutput | grep -P '\d+ assertions' -o )
+        notify-send "$title" "$message4\n$timeTaken
+        \n$memoryTaken\n$testsTaken\n$assertionsTaken" -i "$okIcon"
+        exit 0
+    fi
+
+
+}
+gitunit

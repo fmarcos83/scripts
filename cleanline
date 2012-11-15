@@ -1,0 +1,10 @@
+#! /bin/bash
+
+param=$1
+path=$2
+
+#############################################################
+#   removes lines that match param under path recursively   #
+#############################################################
+
+grep $param -R $path -l | xargs -I file sed "/^.*$param.*$/d" file -i

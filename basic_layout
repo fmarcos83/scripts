@@ -1,0 +1,77 @@
+#! /bin/bash
+options="p:m:h"
+usage="\n
+basic layout ZF generator\n
+--------------------------\n
+-p(required) the project name\n
+-m(required) the module name\n
+-h generates a default .htaccess file\n
+"
+while getopts $options opt; do
+    case $opt in
+        p)
+            projectName="./$OPTARG"
+            ;;
+        m)
+            moduleName=$OPTARG
+            ;;
+        h)
+            htaccessConfig=1
+            ;;
+        \?)
+            echo -e $usage
+            exit 1;;
+    esac
+done
+
+if [ -z $projectName ]; then
+    echo -e $usage;
+    exit 1;
+fi
+
+if [ -z $moduleName ]; then
+    echo -e $usage;
+    exit 1;
+fi
+
+applicationDir="$projectName/application"
+moduleDir="$projectName/application/modules/$moduleName"
+moduleDirViews="$moduleDir/views"
+publicDir="$projectName/public"
+
+#TODO generate configuration throught dependencies
+mkdir -p "$applicationDir/config"
+mkdir -p "$applicationDir/layouts/scripts"
+mkdir -p "$moduleDir/controllers"
+mkdir -p "$moduleDir/bootstrap"
+mkdir -p "$moduleDir/forms"
+mkdir -p "$moduleDir/models"
+mkdir -p "$moduleDir/services"
+mkdir -p "$moduleDirViews/filters"
+mkdir -p "$moduleDirViews/helpers"
+mkdir -p "$moduleDirViews/scripts"
+mkdir -p "$projectName/build"
+mkdir -p "$projectName/data"
+mkdir -p "$projectName/library"
+mkdir -p "$projectName/tests"
+mkdir -p "$publicDir"
+mkdir -p "$publicDir/css"
+mkdir -p "$publicDir/images"
+
+#htaccess creation
+
+if [ -z $htaccessConfig ]; then
+    exit 0;
+fi
+
+#//TODO check how to disable first space when echoing with -e option
+htaccessConfig="
+RewriteEngine On\n
+RewriteCond %{REQUEST_FILENAME} -s [OR]\n
+RewriteCond %{REQUEST_FILENAME} -l [OR]\n
+RewriteCond %{REQUEST_FILENAME} -d\n
+RewriteRule  ^.*$ - [NC,L]\n
+RewriteRule !\.(js|ico|gif|png|css|json) index.php [NC,L]
+"
+touch "$publicDir/.htaccess"
+echo -e $htaccessConfig > "$publicDir/.htaccess"

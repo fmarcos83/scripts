@@ -8,10 +8,15 @@
 # TODO: add autocompletion
 # TODO: I don't like g option, should change to bookmark
 #       on bm $bookmark
-function bm(){
 bookmarkfolder=~/.bookmarks
-OPTIND=1
-while getopts 'lc:d:g:' OPTION;
+usage="\n
+       Very simple bookmark system:\n
+       c) creates a bookmark on the current directory\n
+       d) removes a bookmark\n
+       l) list bookmarks in the system\n
+       n) napalm removes every missing bookmark\n
+       g) changes directory to the bookmark\n"
+while getopts 'lnc:d:g:h' OPTION;
 do
     case $OPTION in
         # create the bookmark
@@ -42,14 +47,14 @@ do
            dir=$(readlink $bookmarkfolder/$bookmarkname)
            cd $dir/
            ;;
-        ?)
-           echo "Very simple bookmark system:"
-           echo "c) creates a bookmark on the current directory"
-           echo "d) removes a bookmark"
-           echo "l) list bookmarks in the system"
-           echo "g) changes directory to the bookmark"
+        n)
+           find $bookmarkfolder/ -xtype l -exec rm {} -rf \;
            ;;
-
+        h)
+           echo -e $usage
+           ;;
+        ?)
+           echo -e $usage
+           ;;
     esac
 done
-}

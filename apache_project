@@ -1,0 +1,76 @@
+#! /bin/bash
+options="p:a:"
+usage="
+\n
+generates a virtualhost configuration and an entry on host file\n
+---------------------------------------------------------------\n
+-p(required) project name\n
+-a(required) admin email address\n
+"
+exceptionVHalreadyExits="\nthe virtualhost already exists"
+while getopts $options opt; do
+    case $opt in
+        p)
+            projectName=$OPTARG
+            ;;
+        a)
+            adminAddress=$OPTARG
+            ;;
+        \?)
+            echo -e $usage
+            exit 1;;
+    esac
+done
+
+if [ -z $projectName ]; then
+    echo -e $usage;
+    exit 1;
+fi
+
+if [ -z $adminAddress ]; then
+    echo -e $usage
+    exit 1;
+fi
+
+configurationFile="/etc/apache2/sites-available/$projectName"
+hostFile="/etc/hosts"
+projectDir=$( readlink -f "$projectName" )
+publicDir="$projectDir/public"
+
+if [ -f $configurationFile ]; then
+    echo -e $exceptionVHalreadyExists
+    exit 1;
+fi
+
+if [ ! -d $projectDir ]; then
+    echo -e "$projectDir doesn't exist"
+    exit 1;
+fi
+
+if [ ! -d $publicDir ]; then
+    echo -e "$publicDir doesn't exist"
+    exit 1;
+fi
+
+#vhost template
+vhostConfiguration="
+<VirtualHost *:80>\n
+    ServerName $projectName\n
+    ServerAdmin $adminAddress\n
+    DocumentRoot $publicDir\n
+    <Directory $publicDir>\n
+        Options  +Indexes Multiviews FollowSymLinks\n
+        AllowOverride All\n
+        Allow from All\n
+    </Directory>\n
+</VirtualHost>\n"
+#host entry
+hostEntry="
+\n
+#$projectName
+\n
+127.0.0.1 $projectName
+"
+echo -e $vhostConfiguration > $configurationFile
+echo -e $hostEntry >> $hostFile
+a2ensite $projectName

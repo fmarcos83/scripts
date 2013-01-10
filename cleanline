@@ -6,5 +6,19 @@ path=$2
 #############################################################
 #   removes lines that match param under path recursively   #
 #############################################################
+usage="\n
+Removes lines from file that match the param\n
+1)) param to clean\n
+2)) path to search recursively\n
+";
+if [ -z $param ]; then
+    echo -e $usage;
+    exit 1;
+fi
 
-grep $param -R $path -l | xargs -I file sed "/^.*$param.*$/d" file -i
+if [ -z $path ]; then
+    echo -e $usage;
+    exit 1;
+fi
+
+grep -P $param -R $path -l | xargs -I file sed "/^.*$param.*$/d" file -i

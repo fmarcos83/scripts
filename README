@@ -2,5 +2,4 @@ some scripts to make my life easier
 +bm        : script to allow bookmarks on the system in an easy way
 +git_utils : script to allow pushes and pulls from all the remotes
 +gitunit   : script to execute phpunit on git repos
-+todo      : GTD in command line :)
 +cleanline : script to remove lines from files

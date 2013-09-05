@@ -10,6 +10,11 @@
 #       on bm $bookmark
 function bm(){
 bookmarkfolder=~/.bookmarks
+#sanity check to create bookmark file if it doesn't exist yet
+if [[ ! -e $bookmarkfolder ]]; then
+   mkdir $bookmarkfolder
+fi
+
 OPTIND=1
 while getopts 'lc:d:g:' OPTION;
 do
@@ -19,10 +24,7 @@ do
         #       before creating it
         c)
             bookmarkname="$OPTARG"
-           if [[ ! -e $bookmarkfolder ]]; then
-               mkdir $bookmarkfolder
-           fi
-           # adding the bookmark
+        # adding the bookmark
            ln -s $(pwd) $bookmarkfolder/$bookmarkname
            ;;
         # deletes the bookmark

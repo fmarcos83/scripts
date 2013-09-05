@@ -1,0 +1,4 @@
+#! /usr/local/bin/phpsh
+<?php
+require 'Zend/Loader/Autoloader.php';
+$loader = Zend_Loader_Autoloader::getInstance();

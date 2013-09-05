@@ -12,11 +12,30 @@ TODO:
 --------------
     - sync should also take care of function files
 
-+bm      FF: script to allow bookmarks on the system in an easy way
-+git_utils : script to allow pushes and pulls from all the remotes
-+gitunit   : script to execute phpunit on git repos
-+cleanline : script to remove lines from files
-+sync      : script to syncronize scripts on every system
-+gitbase FF: script to change to the root of the current git project
+bm
+===
+FF: script to allow bookmarks on the system in an easy way
 
+git_utils
+=========
+script to allow pushes and pulls from all the remotes
 
+gitunit
+=======
+script to execute phpunit on git repos
+
+cleanline
+=========
+script to remove lines from files
+
+sync
+====
+script to syncronize scripts on every system
+
+gitbase
+=======
+FF script to change to the root of the current git project
+
+zendphpsh
+=========
+autoloads ZendFramework library into phpsh environment

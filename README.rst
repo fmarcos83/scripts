@@ -39,3 +39,7 @@ FF script to change to the root of the current git project
 zendphpsh
 =========
 autoloads ZendFramework library into phpsh environment
+
+killbash
+========
+kills all your bash

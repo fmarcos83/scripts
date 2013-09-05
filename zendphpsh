@@ -1,4 +1,4 @@
-#! /usr/local/bin/phpsh
+#!/usr/local/bin/phpsh
 /**
  * It's important to take into account that in
  * order to make work this script it's necessary

@@ -1,0 +1,3 @@
+script_folder=${PWD}
+chmod 755 $script_folder/*
+ln -sf $script_folder/* ~/bin/

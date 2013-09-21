@@ -1,0 +1,17 @@
+#!/usr/local/bin/phpsh
+/**
+ * It's important to take into account that in
+ * order to make work this script it's necessary
+ *
+ * phpsh http://www.phpsh.org
+ * ZendFramework on the include path
+ *
+ *
+ * @author <`2: Francisco Marcos <francisco@code24.nl>`>
+ * @version <`3:$Id$`>
+ * @copyright <`4:<|2|>`>, 05 September, 2013
+ * @package <`5:default`>
+ */
+<?php
+require 'Zend/Loader/Autoloader.php';
+$loader = Zend_Loader_Autoloader::getInstance();

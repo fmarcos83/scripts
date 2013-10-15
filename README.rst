@@ -12,6 +12,7 @@ TODO:
 --------------
     - sync should also take care of function files
     - sync should also should be checking nothing goes wrong with
+    - tool to make svn merges funniest :) or at least to remember them
 
 bm
 ===
@@ -44,3 +45,10 @@ autoloads ZendFramework library into phpsh environment
 killbash
 ========
 kills all your bash
+
+gitsvntrack
+===========
+for gitsvn environments
+    1. tracks a new remotebranch adds it to config
+    2. fetches the results
+    3. creates a local branch pointing to the new remote

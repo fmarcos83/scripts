@@ -1,0 +1,70 @@
+#!/bin/bash
+#
+# *********************************************************************** #
+# author: fmarcos83                                                       #
+# email : fmarcos83@gmail.com                                             #
+# A system to track svn branches after the repo was fetched               #
+# inspired completely by this article                                     #
+# *********************************************************************** #
+# http://stackoverflow.com/questions/296975/how-do-i-tell-git-svn-about-a-remote-branch-created-after-i-fetched-the-repo
+
+#extracting the svn repository
+#TODO: check for errors if we are not inside a git svn repo
+requires="
+This script only can work under a git svn repository
+"
+result=$(git svn info > /dev/null 3>&1 2>&1  );
+if [[ 0 -lt $? ]]; then
+    echo -e $requires;
+    exit 1;
+fi
+svnRoot=$(git svn info | grep 'Root' | sed 's/Repository Root:\s*//g');
+helpMessage="
+Tool to trak remote branches with git svn\n
+-b sets the name of the new svn remote branch to track\n
+-l sets the name of the new local branch we want to sync with\n
+"
+
+OPTIND=1
+options='b:l'
+while getopts $options OPTION;
+do
+    case $OPTION in
+        # gets the name of the branch we want to track
+        b)
+            #branch is the name of the new remote branch you want to sync to
+            branch="$OPTARG"
+            ;;
+        # gets the name of the local branch we want to create
+        l)
+            #local branch is the name of the new local branch you want to create
+            localbranch="$OPTARG"
+            ;;
+        ?)
+            echo -e $helpMessage
+            ;;
+    esac
+done
+
+#branches path is assuming a default layout
+newBranchRemotePath="$svnRoot/branches/$branch"
+
+if [[ -z $branch ]]; then
+    echo 'b) can not be empty'
+    exit 1;
+fi
+
+if [[ -z $localbranch ]]; then
+    localbranch="local/$branch"
+fi
+
+#TODO set sanity checks to check if we want to override some configuration
+#or warn the user that the current configuration already exists
+
+#adding a remote
+$(git config --add svn-remote.$branch.url $newBranchRemotePath)
+#telling git where to fetch the changes
+$(git config --add svn-remote.$branch.fetch :refs/remotes/$branch)
+#fetching the new changes
+$(git svn fetch "$branch")
+$(git checkout -b $localbranch -t $branch)

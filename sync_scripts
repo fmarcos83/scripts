@@ -1,3 +1,7 @@
+#!/bin/bash
 script_folder=${PWD}
 chmod 755 $script_folder/*
 ln -sf $script_folder/* ~/bin/
+# this is very crapy we need a blacklist filter approach for
+# syncing scripts
+rm ~/bin/sync_scripts

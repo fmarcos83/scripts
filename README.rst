@@ -11,6 +11,7 @@ ATTENTION
 TODO:
 --------------
     - sync should also take care of function files
+    - sync should also should be checking nothing goes wrong with
 
 bm
 ===

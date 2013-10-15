@@ -1,0 +1,8 @@
+#!/bin/bash
+projectfolder=$(git rev-parse --show-toplevel);
+jsproject="$projectfolder/public/js";
+numWrongLines=$(ack-grep  'console\.log' $jsproject --ignor-dir=library | wc -l);
+if [[ $numWrongLines -gt 0 ]]; then
+    echo -e 'console\.log entries are not allowed under the application'
+    exit 1;
+fi

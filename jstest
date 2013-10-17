@@ -1,8 +1,8 @@
 #!/bin/bash
 projectfolder=$(git rev-parse --show-toplevel);
 jsproject="$projectfolder/public/js";
-numWrongLines=$(ack-grep  'console\.log' $jsproject --ignore-dir=library | wc -l);
+numWrongLines=$(ack-grep  '\s*\Wconsole\.log' $jsproject --ignore-dir=library | wc -l);
 if [[ $numWrongLines -gt 0 ]]; then
-    echo -e 'console\.log entries are not allowed under the application'
+    echo -e 'console object entries are not allowed under the application better use Code24.log'
     exit 1;
 fi

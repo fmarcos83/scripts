@@ -1,0 +1,9 @@
+#!/bin/bash
+dir=$( git rev-parse --show-toplevel );
+publicjs="$dir/public/js/application"
+cfpath="/home/fmarcos83/workspace/external/scripts/jshinttrailingcommanscf"
+res=$(find $publicjs -name '*js' | xargs -I file jshint -c $cfpath file | grep 'Extra comma' | wc -l);
+if [[ 0 -lt $res ]]; then
+    echo 'check for trailing, spaces use IEtest'
+    exit 1;
+fi

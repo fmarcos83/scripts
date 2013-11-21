@@ -1,4 +1,6 @@
 {
     "maxerr":"2000",
-    "es3":true
+    "es3":true,
+    "debug":false,
+    "devel":false
 }

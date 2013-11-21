@@ -1,0 +1,19 @@
+#!/bin/bash
+projectfolder=$(git rev-parse --show-toplevel);
+jsproject="$projectfolder/public/js";
+
+#TODO read this from a config file
+#TODO could be also very handy to have
+blacklist='Ext.StoreMgr|Ext.data.StoreMgr|Ext.data.StoreManager';
+wrongFiles=$(ack-grep -l $blacklist $jsproject --ignore-dir=library);
+numWrongLines=$(ack-grep $blacklist $jsproject --ignore-dir=library | wc -l);
+
+if [[ $numWrongLines -gt 0 ]]; then
+echo -e "\nthe code doesn't adjust to mconsole guidestile for ExtJS
+        \n\tplease change them before proceding
+        \n\tthat contains $blacklist
+        \n\tplease change them for Ext.getStore
+        "
+    echo -e $wrongFiles;
+    exit 1;
+fi

@@ -1,0 +1,31 @@
+#! /bin/bash
+
+search=$1
+replace=$2
+path=$3
+
+#############################################################
+#   removes lines that match param under path recursively   #
+#############################################################
+usage="\n
+Removes lines from file that match the param\n
+1)) param to search\n
+2)) param to replace the serch string\n
+3)) path to search recursively\n
+";
+if [ -z $search ]; then
+    echo -e $usage;
+    exit 1;
+fi
+
+if [ -z $replace ]; then
+    echo -e $usage;
+    exit 1;
+fi
+
+if [ -z $path ]; then
+    echo -e $usage;
+    exit 1;
+fi
+
+grep -P "$search" -R $path -l | xargs -I file sed "s/$search/$replace/g" file -i

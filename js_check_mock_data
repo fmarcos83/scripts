@@ -1,0 +1,21 @@
+#! /bin/bash
+expresionDefault="/js/data.*json";
+pathSearch=$1;
+expression=$2;
+if [ -z $pathSearch ]; then
+    pathSearch="$(pwd)/public/js";
+fi
+if [ -z $expression ]; then
+    expression=$expresionDefault;
+fi
+numwrongFiles=$(ack-grep $expression $pathSearch -l | wc -l)
+if [ $numwrongFiles -ge 0 ]; then
+    files=$(ack-grep $expression $pathSearch -l)
+    echo -e "
+        It seems you have mock data review the following files:
+
+        $files
+    "
+    exit 1;
+fi
+exit 0;

@@ -5,8 +5,8 @@ jsproject="$projectfolder/public/js";
 #TODO read this from a config file
 #TODO could be also very handy to have
 blacklist='Ext.StoreMgr|Ext.data.StoreMgr|Ext.data.StoreManager';
-wrongFiles=$(ack-grep -l $blacklist $jsproject --ignore-dir=library);
-numWrongLines=$(ack-grep $blacklist $jsproject --ignore-dir=library | wc -l);
+wrongFiles=$(ack-grep -l $blacklist $jsproject --ignore-dir=library --ignore-dir=production);
+numWrongLines=$(ack-grep $blacklist $jsproject --ignore-dir=library --ignore-dir=production | wc -l);
 
 if [[ $numWrongLines -gt 0 ]]; then
 echo -e "\nthe code doesn't adjust to mconsole guidestile for ExtJS

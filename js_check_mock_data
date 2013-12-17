@@ -9,7 +9,7 @@ if [ -z $expression ]; then
     expression=$expresionDefault;
 fi
 numwrongFiles=$(ack-grep $expression $pathSearch -l | wc -l)
-if [ $numwrongFiles -ge 0 ]; then
+if [ $numwrongFiles -gt 0 ]; then
     files=$(ack-grep $expression $pathSearch -l)
     echo -e "
         It seems you have mock data review the following files:

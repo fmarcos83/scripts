@@ -1,0 +1,27 @@
+# !/bin/bash
+USER="background"
+PASSWD="b@ckground"
+REPO="svn://svn.code24.nl/products/mconsole"
+LANDINGPATH=~/workspace/releases/mconsole
+LOCALS=~/workspace/test/mconsole/local/
+LICENSEPATH=~/workspace/test/mconsole/code24.lic
+WORKINGCODE=~/workspace/test/mconsole
+
+version=$1
+lastVersion=$( svn ls $REPO --username $USER --password $PASSWD | sort -n | tail -n 1 | sed 's/\///g' )
+
+#overriding the version
+if [ -z $version ]; then
+    version=$lastVersion
+fi
+
+#cleaning
+if [ -d $LANDINGPATH ]; then
+    sudo rm -rf $LANDINGPATH
+fi
+
+svn export $REPO/$version --username $USER --password $PASSWD $LANDINGPATH
+
+ln -sf $LOCALS* $LANDINGPATH/local/
+ln -sf $LICENSEPATH $LANDINGPATH/library/Code24/code24.lic
+rm -rf $LANDINGPATH/library/Code24 && ln -sf $WORKINGCODE/library/Code24 $LANDINGPATH/library/Code24

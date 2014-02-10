@@ -1,0 +1,4 @@
+#!/bin/bash
+file=$1
+prefix=$2
+echo 'var dumpdic = [' && grep -P "_T\('.*'\)" $file  -o | grep -P "'.*'" -o | xargs -I LINE echo "'$prefix.LINE'," && echo ']'

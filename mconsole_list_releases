@@ -1,0 +1,7 @@
+# !/bin/bash
+USER="background"
+PASSWD="b@ckground"
+REPO="svn://svn.code24.nl/products/mconsole"
+LANDINGPATH="workspace/releases/mconsole"
+version=$1
+svn ls $REPO --username $USER --password $PASSWD | sort -n | sed 's/\///g' 

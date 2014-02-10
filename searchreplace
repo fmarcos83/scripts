@@ -8,7 +8,7 @@ path=$3
 #   removes lines that match param under path recursively   #
 #############################################################
 usage="\n
-Removes lines from file that match the param\n
+Replaces entries from file that match the param\n
 1)) param to search\n
 2)) param to replace the serch string\n
 3)) path to search recursively\n

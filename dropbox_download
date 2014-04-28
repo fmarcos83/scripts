@@ -1,0 +1,3 @@
+#!/bin/bash
+replacement='s/www.dropbox/dl.dropbox/g'
+sed -e $replacement | xargs -I droplink wget droplink < "${1:-/proc/${$}/fd/0}"

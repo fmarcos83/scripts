@@ -2,7 +2,7 @@
 projectfolder=$(git rev-parse --show-toplevel);
 jsproject="$projectfolder/public/js";
 searchPattern='\s*\Wconsole'
-numWrongLines=$(ack-grep  $searchPattern $jsproject --ignore-dir=library --ignore-dir=production | wc -l);
+numWrongLines=$(ack-grep  $searchPattern $jsproject --ignore-dir={library,tests} --ignore-dir=production | wc -l);
 if [[ $numWrongLines -gt 0 ]]; then
     echo -e '
     \nconsole object entries are not allowed under the application

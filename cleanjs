@@ -2,7 +2,7 @@
 projectfolder=$(git rev-parse --show-toplevel);
 jsproject="$projectfolder/public/js";
 searchPattern='\s*\Wconsole'
-numWrongLines=$(ack-grep  $searchPattern $jsproject --ignore-dir=library | wc -l);
+numWrongLines=$(ack-grep  $searchPattern $jsproject --ignore-dir={library,tests} | wc -l);
 if [[ $numWrongLines -gt 0 ]]; then
     cleanline $searchPattern $jsproject
 fi

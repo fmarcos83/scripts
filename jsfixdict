@@ -1,0 +1,4 @@
+#!/bin/bash
+file=$1
+prefix=$2
+sed "s/_T('\(.*\)')/_T('$prefix.\1')/g" $file -i

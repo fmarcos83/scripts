@@ -21,4 +21,4 @@ if [ -z $path ]; then
     exit 1;
 fi
 
-grep -P $param -R $path -l | xargs -I file sed "/^.*$param.*$/d" file -i
+grep -P $param -R $path -l --exclude-dir="library/3rd" | xargs -I file sed "/^.*$param.*$/d" file -i

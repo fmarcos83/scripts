@@ -1,0 +1,10 @@
+#!/bin/bash
+branch=$1
+message="You must provide the name of the remote branch to cleanup"
+if [ -z  $branch ]; then
+    echo $message
+    exit 1
+fi
+git branch -d -r $branch
+rm -rf .git/svn/refs/remotes/$branch
+exit 0

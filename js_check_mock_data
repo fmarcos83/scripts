@@ -8,9 +8,9 @@ fi
 if [ -z $expression ]; then
     expression=$expresionDefault;
 fi
-numwrongFiles=$(ack-grep $expression $pathSearch -l | wc -l)
+numwrongFiles=$(grep $expression $pathSearch -l --exclude-dir='public/js/tests' | wc -l)
 if [ $numwrongFiles -gt 0 ]; then
-    files=$(ack-grep $expression $pathSearch -l)
+    files=$(grep $expression $pathSearch -l --exclude-dir='public/js/tests')
     echo -e "
         It seems you have mock data review the following files:
 
